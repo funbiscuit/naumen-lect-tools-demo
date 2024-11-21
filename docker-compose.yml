@@ -2,12 +2,27 @@ services:
   app:
     build: ./
     environment:
-      SPRING_DATASOURCE_URL: jdbc:h2:file:/data/todos
-    volumes:
-      - h2db:/data
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/demo
+      SPRING_DATASOURCE_USERNAME: demo
+      SPRING_DATASOURCE_PASSWORD: Passw0rd
+      SPRING_DATASOURCE_DRIVER_CLASS_NAME: org.postgresql.Driver
+      SPRING_JPA_DATABASE_PLATFORM: org.hibernate.dialect.PostgreSQLDialect
     ports:
       - "8989:8080"
     restart: unless-stopped
 
+  postgres:
+    image: postgres:15
+    environment:
+      POSTGRES_USER: demo
+      POSTGRES_PASSWORD: Passw0rd
+      POSTGRES_DB: demo
+      PGDATA: /data/postgres
+    volumes:
+      - postgres:/data/postgres
+    ports:
+      - "8932:5432"
+    restart: unless-stopped
+
 volumes:
-  h2db: {}
+  postgres: {}
