@@ -1,0 +1,13 @@
+services:
+  app:
+    build: ./
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:h2:file:/data/todos
+    volumes:
+      - h2db:/data
+    ports:
+      - "8989:8080"
+    restart: unless-stopped
+
+volumes:
+  h2db: {}
